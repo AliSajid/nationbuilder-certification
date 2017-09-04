@@ -8,10 +8,11 @@ For Task One I've chosen the People section. I will be attempting all three task
 2. Update a Person
 3. Delete the Person
 """
-import os
-import requests
-from functools import partial
 import json
+import os
+from functools import partial
+
+import requests
 
 nb_get = partial(requests.get,
                  params={'access_token': os.getenv("NB_TOKEN")},
@@ -19,20 +20,19 @@ nb_get = partial(requests.get,
 nb_get.__doc__ = "requests.get function with the access token inside it and the headers variable set."
 
 nb_post = partial(requests.post,
-                 params={'access_token': os.getenv("NB_TOKEN")},
-                 headers={'content-type': 'application/json'})
+                  params={'access_token': os.getenv("NB_TOKEN")},
+                  headers={'content-type': 'application/json'})
 nb_post.__doc__ = "requests.get function with the access token inside it and the headers variable set."
 
 nb_delete = partial(requests.delete,
-                 params={'access_token': os.getenv("NB_TOKEN")},
-                 headers={'content-type': 'application/json'})
+                    params={'access_token': os.getenv("NB_TOKEN")},
+                    headers={'content-type': 'application/json'})
 nb_delete.__doc__ = "requests.get function with the access token inside it and the headers variable set."
 
 nb_put = partial(requests.put,
                  params={'access_token': os.getenv("NB_TOKEN")},
                  headers={'content-type': 'application/json'})
 nb_put.__doc__ = "requests.get function with the access token inside it and the headers variable set."
-
 
 person_example = json.loads("""{
   "person": {
@@ -62,14 +62,14 @@ person_update = json.loads("""{
 baseurl = "https://aliimami.nationbuilder.com/api/v1"
 people_url = baseurl + "/people"
 
-#Create a person
+# Create a person
 newperson = nb_post(people_url, json=person_example)
 
 if newperson.status_code == 201:
     newperson_id = newperson.json()['person']["id"]
 
-#Update a person
+# Update a person
 updatedperson = nb_put(people_url + "/{}".format(newperson_id), json=person_update)
 
-#Delete a person
+# Delete a person
 deleted_person = nb_delete(people_url + "/{}".format(newperson_id))
